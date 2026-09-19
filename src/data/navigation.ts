@@ -1,5 +1,6 @@
-import { Camera, ThumbsUp, MessageCircle, Mail } from "lucide-react";
+import { Camera, MessageCircle, Mail } from "lucide-react";
 import type { NavLink, SocialLink } from "@/types";
+import { CONTACT, buildWhatsAppLink } from "@/lib/utils";
 
 export const navLinks: NavLink[] = [
   { label: "Home", href: "#home" },
@@ -23,8 +24,13 @@ export const siteConfig = {
 } as const;
 
 export const socialLinks: SocialLink[] = [
-  { label: "Instagram", href: "https://www.instagram.com/", icon: Camera },
-  { label: "WhatsApp", href: "https://wa.me/919000000000", icon: MessageCircle },
-  { label: "Facebook", href: "https://www.facebook.com/", icon: ThumbsUp },
-  { label: "Email", href: "mailto:hello@mehndinoor.example", icon: Mail },
+  { label: "Instagram", href: CONTACT.instagramHref, icon: Camera },
+  {
+    label: "WhatsApp",
+    href: buildWhatsAppLink(
+      "Hello Mehndi Noor, I would like to enquire about a booking."
+    ),
+    icon: MessageCircle,
+  },
+  { label: "Email", href: `mailto:${CONTACT.email}`, icon: Mail },
 ];
