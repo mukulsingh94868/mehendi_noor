@@ -7,14 +7,14 @@ export function cn(...inputs: ClassValue[]) {
 
 /** Placeholder business contact details — replace with real values. */
 export const CONTACT = {
-  phone: "+91 90000 00000",
-  phoneHref: "tel:+919000000000",
-  whatsappNumber: "919000000000",
-  email: "hello@mehndinoor.example",
-  instagramHandle: "@mehndinoor.studio",
-  instagramHref: "https://www.instagram.com/",
+  phone: "+91 9694195035",
+  phoneHref: "tel:+919694195035",
+  whatsappNumber: "919694195035",
+  email: "mukulsingh94868@gmail.com",
+  instagramHandle: "@seemaposhak_and_heena27",
+  instagramHref: "https://www.instagram.com/seemaposhak_and_heena27?utm_source=qr&igsi=MW02enJyZHg0aTRyaw%3D%3D",
   location: "Jaipur, Rajasthan, India",
-  hours: "Studio visits by appointment · 10:00 – 19:00",
+  hours: "10:00 – 19:00",
 } as const;
 
 /**
