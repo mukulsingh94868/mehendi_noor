@@ -20,7 +20,7 @@ export default function HomePage() {
         <Services />
         <Gallery />
         <About />
-        <Packages />
+        {/* <Packages /> */}
         <WhyChooseUs />
         <Process />
         <Testimonials />
