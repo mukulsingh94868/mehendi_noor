@@ -43,7 +43,7 @@ export function Footer() {
 
           <nav
             aria-label="Quick links"
-            className="lg:col-span-2 lg:col-start-6"
+            className="lg:col-span-2"
           >
             <h3 className="font-serif text-lg text-gold">Quick Links</h3>
             <ul className="mt-5 space-y-3 text-sm">
