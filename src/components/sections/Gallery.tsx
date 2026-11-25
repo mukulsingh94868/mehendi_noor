@@ -11,11 +11,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { galleryFilters, galleryItems } from "@/data/gallery";
+import { galleryFilters } from "@/data/gallery";
 import type { GalleryFilterValue, GalleryItem } from "@/types";
 import { cn } from "@/lib/utils";
 
-export function Gallery() {
+export function Gallery({ items: galleryItems }: { items: GalleryItem[] }) {
   const [filter, setFilter] = useState<GalleryFilterValue>("All");
   const [selected, setSelected] = useState<GalleryItem | null>(null);
 

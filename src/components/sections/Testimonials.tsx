@@ -2,10 +2,10 @@ import { Quote, Star } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { testimonials } from "@/data/testimonials";
+import type { Testimonial } from "@/types";
 import { cn } from "@/lib/utils";
 
-export function Testimonials() {
+export function Testimonials({ items: testimonials }: { items: Testimonial[] }) {
   return (
     <section id="reviews" className="bg-cream">
       <div className="section-shell">
@@ -54,9 +54,11 @@ export function Testimonials() {
           ))}
         </div>
 
-        <p className="mt-8 text-center text-xs text-muted-foreground">
-          Illustrative placeholder testimonials shown for demonstration only.
-        </p>
+        {testimonials.some((testimonial) => testimonial.quote.startsWith("Placeholder review.")) ? (
+          <p className="mt-8 text-center text-xs text-muted-foreground">
+            Illustrative placeholder testimonials shown for demonstration only.
+          </p>
+        ) : null}
       </div>
     </section>
   );

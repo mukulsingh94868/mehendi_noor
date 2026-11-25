@@ -1,5 +1,16 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  Crown,
+  Flower2,
+  Gem,
+  HeartHandshake,
+  PenTool,
+  Sparkles,
+  User,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 
 import {
   Card,
@@ -10,8 +21,20 @@ import {
 } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { services } from "@/data/services";
+import type { Service } from "@/types";
 
-export function Services() {
+const serviceIcons: Record<string, LucideIcon> = {
+  Crown,
+  Flower2,
+  Gem,
+  HeartHandshake,
+  Sparkles,
+  Users,
+  User,
+  PenTool,
+};
+
+export function Services({ items = services }: { items?: Service[] }) {
   return (
     <section id="services" className="bg-cream">
       <div className="section-shell">
@@ -22,8 +45,10 @@ export function Services() {
         />
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {services.map((service) => {
-            const Icon = service.icon;
+          {items.map((service) => {
+            const Icon = typeof service.icon === "string"
+              ? serviceIcons[service.icon]
+              : service.icon;
             return (
               <Card
                 key={service.id}

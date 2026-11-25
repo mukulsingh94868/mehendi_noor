@@ -18,7 +18,7 @@ export function About() {
           />
           <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-gold/30 shadow-card">
             <Image
-              src="/images/about-artist.svg"
+              src="/images/about-artist.jpg"
               alt="Henna artistry detail created by Mehndi Noor"
               fill
               unoptimized

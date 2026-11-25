@@ -73,7 +73,7 @@ export function Hero() {
           />
           <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-gold/30 shadow-card">
             <Image
-              src="/images/hero-main.svg"
+              src="/images/hero-main.jpg"
               alt="Bridal mehndi artistry with intricate hand and mandala motifs"
               fill
               priority
