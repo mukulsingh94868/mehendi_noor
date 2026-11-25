@@ -10,20 +10,29 @@ import { Process } from "@/components/sections/Process";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
+import { getGalleryItems, getServices, getTestimonials } from "@/lib/contentApi";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const [galleryItems, services, testimonials] = await Promise.all([
+    getGalleryItems(),
+    getServices(),
+    getTestimonials(),
+  ]);
+
   return (
     <>
       <Navbar />
       <main>
         <Hero />
-        <Services />
-        <Gallery />
+        <Services items={services} />
+        <Gallery items={galleryItems} />
         <About />
         {/* <Packages /> */}
         <WhyChooseUs />
         <Process />
-        <Testimonials />
+        <Testimonials items={testimonials} />
         <FAQ />
         <Contact />
       </main>

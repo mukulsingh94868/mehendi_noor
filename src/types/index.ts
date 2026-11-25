@@ -25,7 +25,7 @@ export interface Service {
   title: string;
   description: string;
   image: string;
-  icon: LucideIcon;
+  icon: LucideIcon | string;
 }
 
 export interface GalleryItem {

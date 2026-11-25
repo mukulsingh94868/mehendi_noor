@@ -39,8 +39,11 @@ const contactChannels = [
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [whatsappHref, setWhatsappHref] = useState("");
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     const data = new FormData(form);
@@ -48,19 +51,61 @@ export function Contact() {
     const phone = String(data.get("phone") ?? "").trim();
     if (!name || !phone) return;
 
+    const contact = {
+      name,
+      phone,
+      eventType: String(data.get("eventType") || "-"),
+      eventDate: String(data.get("eventDate") || ""),
+      location: String(data.get("location") || ""),
+      message: String(data.get("message") || ""),
+    };
     const message = [
       "Hello Mehndi Noor! I would like to enquire about a booking.",
-      `Name: ${name}`,
-      `Phone: ${phone}`,
-      `Event Type: ${data.get("eventType") || "-"}`,
-      `Event Date: ${data.get("eventDate") || "Not decided"}`,
-      `Location: ${data.get("location") || "To be confirmed"}`,
-      `Message: ${data.get("message") || "-"}`,
+      `Name: ${contact.name}`,
+      `Phone: ${contact.phone}`,
+      `Event Type: ${contact.eventType}`,
+      `Event Date: ${contact.eventDate || "Not decided"}`,
+      `Location: ${contact.location || "To be confirmed"}`,
+      `Message: ${contact.message || "-"}`,
     ].join("\n");
 
-    window.open(buildWhatsAppLink(message), "_blank", "noopener,noreferrer");
-    setSubmitted(true);
-    form.reset();
+    const whatsappWindow = window.open("about:blank", "_blank");
+    if (whatsappWindow) whatsappWindow.opener = null;
+    setSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+      if (!apiBaseUrl) {
+        throw new Error("Contact booking is not configured. Please contact us by phone or WhatsApp.");
+      }
+      const response = await fetch(`${apiBaseUrl}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contact),
+      });
+      const result: { success: boolean; message?: string } = await response.json();
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "We could not save your enquiry. Please try again.");
+      }
+
+      const link = buildWhatsAppLink(message);
+      setWhatsappHref(link);
+      if (whatsappWindow) {
+        whatsappWindow.location.href = link;
+      }
+      setSubmitted(true);
+      form.reset();
+    } catch (error) {
+      whatsappWindow?.close();
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "We could not save your enquiry. Please try again."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -130,13 +175,24 @@ export function Contact() {
                     Thank You
                   </h3>
                   <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                    Your enquiry is ready in WhatsApp — just press send and we
-                    will take it from there.
+                    Your enquiry has been saved. Send the pre-filled message in
+                    WhatsApp and we will take it from there.
                   </p>
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-5 text-sm font-medium text-mehndi underline underline-offset-4"
+                  >
+                    Continue to WhatsApp
+                  </a>
                   <Button
                     variant="outline"
-                    className="mt-7"
-                    onClick={() => setSubmitted(false)}
+                    className="mt-5"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setErrorMessage("");
+                    }}
                   >
                     Send another enquiry
                   </Button>
@@ -190,13 +246,18 @@ export function Contact() {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full">
+                  <Button type="submit" size="lg" className="w-full" disabled={submitting}>
                     <Send className="h-4 w-4" />
-                    Send via WhatsApp
+                    {submitting ? "Saving enquiry…" : "Send via WhatsApp"}
                   </Button>
+                  {errorMessage ? (
+                    <p role="alert" className="text-center text-sm text-red-700">
+                      {errorMessage}
+                    </p>
+                  ) : null}
                   <p className="text-center text-xs text-muted-foreground">
-                    This is a static demo form — it opens WhatsApp with your
-                    details pre-filled. No data is stored or sent to a server.
+                    Your enquiry is saved securely so we can follow up, then
+                    WhatsApp opens with your message pre-filled.
                   </p>
                 </form>
               )}

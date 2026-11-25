@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: "Mehndi Noor",
     images: [
       {
-        url: "/images/hero-main.svg",
+        url: "/images/hero-main.jpg",
         width: 1200,
         height: 1500,
         alt: "Elegant mehndi artistry by Mehndi Noor",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: "Mehndi Noor | Elegant Mehndi Artistry",
     description:
       "Elegant bridal, Arabic, Rajasthani and customized mehndi artistry for weddings and celebrations.",
-    images: ["/images/hero-main.svg"],
+    images: ["/images/hero-main.jpg"],
   },
 };
 
